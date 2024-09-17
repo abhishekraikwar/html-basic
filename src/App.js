@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AddResult from './AddResult';
+import ViewResult from './ViewResult';
+import Header from './Header';
 import './App.css';
 
 function App() {
+  const [results, setResults] = useState([]);
+
+  const addResult = (result) => {
+    const newResult = [result, ...results];
+    setResults(newResult);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<AddResult addResult={addResult} results={results}/>} />
+          <Route path="/viewresult" element={<ViewResult results={results} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
